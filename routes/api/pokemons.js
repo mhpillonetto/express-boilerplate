@@ -1,33 +1,16 @@
 const express= require('express');
 const router = express.Router();
-
-const data = {};
-data.pokemons = require('../../data/pokemons.json')
+const path = require('path');
+const pokemonsController = require('../../controllers/pokemonsController');
 
 router.route('/')
-    .get((req,res) => {
-        res.json(data.pokemons);
-    })
-    .post((req, res) => {
-        res.json({
-            "name": req.body.name,
-            "type": req.body.type
-        });
-    })
-    .put((req, res) => {
-        res.json({
-            "name": req.body.name,
-            "type": req.body.type
-        });
-    })
-    .delete((req,res) => {
-        res.json({ "id": req.body.id });
-    });
+    .get(pokemonsController.getAllPokemons)
+    .post(pokemonsController.createPokemons)
+    .put(pokemonsController.updatePokemon);
 
 router.route("/:id")
-    .get((req,res) => {
-        res.json({ "id": req.params.id });
-    });
+    .get(pokemonsController.getPokemon)
+    .delete(pokemonsController.deletePokemon);
 
 
 module.exports = router;
