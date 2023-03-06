@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const PORT = process.env.PORT || 3500;
-const router = require('./src/router');
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
@@ -16,8 +15,8 @@ app.use((req,res,next) => {
     next();
 })
 
-app.use(router);
-
+app.use('/', require('./routes'));
+app.use('/pokemons', require('./routes/api/pokemons'));
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

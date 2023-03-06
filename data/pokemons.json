@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Pikachu",
+        "type": "Electric"
+    },
+    {
+        "id": 2,
+        "name": "Squirtle",
+        "type": "Water"
+    }
+]
