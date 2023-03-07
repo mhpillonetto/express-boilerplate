@@ -16,7 +16,7 @@ app.use((req,res,next) => {
 })
 
 app.use('/', require('./routes'));
+app.use('/register', require('./routes/api/register'));
 app.use('/pokemons', require('./routes/api/pokemons'));
-
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
