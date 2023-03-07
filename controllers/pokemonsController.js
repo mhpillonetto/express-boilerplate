@@ -35,14 +35,15 @@ const updatePokemon = (req, res) => {
 };
 
 const deletePokemon = (req,res) => {    
-    const filteredArray = data.pokemons.filter(poke => poke.id !== parseInt(req.headers.id));
+    const filteredArray = data.pokemons.filter(poke => poke.id !== parseInt(req.params.id));
+    console.log(req.params.id);
     data.setPokemons(filteredArray);
     res.json(data.pokemons);
 };
 
 const getPokemon = (req,res) => {
-    const pokemon = data.pokemons.find(poke => poke.id === parseInt(req.body.id));
-
+    const pokemon = data.pokemons.find(poke => poke.id === parseInt(req.params.id));
+    console.log(req.params.id);
     res.json(pokemon);
 };
 
