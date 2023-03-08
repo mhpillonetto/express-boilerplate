@@ -14,5 +14,4 @@ router.route("/:id")
     .get(pokemonsController.getPokemon)
     .delete(verifyRoles(ROLES_LIST.Admin), pokemonsController.deletePokemon);
 
-
 module.exports = router;

@@ -13,12 +13,17 @@ MVC
 Autentication
 JWT
 cookies
+Database
+MongoDB
+NoSQL
+Mongoose
+CRUD
+AWS
 
 //adicionar
 TDD
 Unit Testing
 JEST
-Database
-Integration
-PostgreSQL
+
+
 

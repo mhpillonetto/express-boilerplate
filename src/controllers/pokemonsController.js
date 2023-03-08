@@ -1,49 +1,63 @@
-const data = {
-    pokemons: require('../model/pokemons.json'),
-    setPokemons: function (data) {this.pokemons = data} 
+const Pokemon = require('../model/Pokemon');
+
+const getAllPokemons = async (req, res) => {
+    const pokemons = await Pokemon.find();
+    if(!pokemons) return res.status(204).json({"message":"No pokemons found :("});
+    res.json(pokemons)
 };
 
-const getAllPokemons = (req, res) => {
-    res.json(data.pokemons);
-};
-
-const createPokemons = (req, res) => {
-    const newPokemon = {
-        id: data.pokemons[data.pokemons.length -1].id + 1 || 1,
-        name: req.body.name,
-        type: req.body.type
-    }
+const createPokemons = async (req, res) => {
     //adicionar validacao!!
-
-    console.log(newPokemon);
-    
-    data.setPokemons([...data.pokemons, newPokemon]);
-    res.json(data.pokemons);
-};
-
-const updatePokemon = (req, res) => {
-    const pokemon = data.pokemons.find(poke => poke.id === parseInt(req.body.id));
-    if (!pokemon) {
-        return res.status(400).json({ "message": `Pokemon ID ${req.body.id} not found`});
+    if (!req?.body?.name || !req?.body?.type) {
+        return res.status(400).json({ "message": "name and type are required."})
     }
-    if (req.body.name) pokemon.name = req.body.name;
-    if (req.body.type) pokemon.type = req.body.type;
-    const filteredArray = data.pokemons.filter(poke => poke.id !== parseInt(req.body.id));
-    const unsortedArray = [...filteredArray, pokemon];
-    data.setPokemons(unsortedArray.sort((a,b) => a.id > b.id ? 1 : a.id < navigator.id ? -1 : 0));
-    res.json(data.pokemons)
+
+    try {
+        const result = await Pokemon.create({
+            name: req.body.name,
+            type: req.body.type
+        });
+
+        res.status(201).json(result);
+
+    } catch (error) {
+        // throw new Error(err);
+        console.error(err);
+    }
 };
 
-const deletePokemon = (req,res) => {    
-    const filteredArray = data.pokemons.filter(poke => poke.id !== parseInt(req.params.id));
-    console.log(req.params.id);
-    data.setPokemons(filteredArray);
-    res.json(data.pokemons);
+const updatePokemon = async (req, res) => {
+    //validacao
+    if (!req?.body?.id) {
+        return res.status(400).json({ "message": "pokemon id required."})
+    }
+
+    const pokemon = await Pokemon.findOne({_id: req.body.id}).exec();
+
+    if (!pokemon) {
+        return res.status(204).json({ "message": `No Pokemon matches ID ${req.body.id}`});
+    }
+
+    if (req.body?.name) pokemon.name = req.body.name;
+    if (req.body?.type) pokemon.type = req.body.type;
+    
+    const result = await Pokemon.save();
+    res.json(result);
 };
 
-const getPokemon = (req,res) => {
-    const pokemon = data.pokemons.find(poke => poke.id === parseInt(req.params.id));
-    console.log(req.params.id);
+const deletePokemon = async(req,res) => {    
+    if(!req?.params?.id) {
+        return res.status(400).json({ "message": `Pokemon ID required.`});
+    }
+    const result = await Pokemon.deleteOne({ _id: req.params.id });
+    res.json(result);
+};
+
+const getPokemon = async (req,res) => {
+    if(!req?.params?.id) {
+        return res.status(400).json({ "message": `Pokemon ID required.`});
+    }
+    const pokemon = await Pokemon.findOne({ _id: req.params.id }).exec();
     res.json(pokemon);
 };
 
