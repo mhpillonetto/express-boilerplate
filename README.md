@@ -3,6 +3,7 @@ Boilerplate
 Backend
 Server
 Javascript
+Typescript
 NodeJS
 SOLID
 Express
@@ -13,12 +14,15 @@ MVC
 Autentication
 JWT
 cookies
+PostgreSQL
+Database
+TypeORM
+
 
 //adicionar
 TDD
 Unit Testing
 JEST
-Database
-Integration
-PostgreSQL
+Integration Testing
+Docker
 
