@@ -1,0 +1,10 @@
+docker run -p 5432:5432 -d \
+    -e POSTGRES_PASSWORD=snapcaster \
+    -e POSTGRES_USER=mhpillonetto \
+    -e POSTGRES_DB=pokemons \
+    -v pgdata/var/lib/postgresql/data \
+    postgres
+
+psql pokemons -h localhost -U mhpillonetto
+
+docker exec -it psql -U mhpillonetto pokemons
