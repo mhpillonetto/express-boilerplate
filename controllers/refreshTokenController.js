@@ -1,6 +1,6 @@
 const usersDB = {
     users: require('../model/users.json'),
-    setUsers: function (data) { this.users = data}
+    setUsers: function (data) { this.users = data }
 }
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -13,16 +13,23 @@ const handleRefreshToken = (req, res) => {
     const foundUser = usersDB.users.find(person => person.refreshToken === refreshToken);
     console.log('found user', foundUser);
     if (!foundUser) return response.sendStatus(403); //unauthorized
-    
+
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
             if (err) return res.sendStatus(403);
+            const roles = Object.values(foundUser.roles);
+            
             const accessToken = jwt.sign(
-                { "username": decoded.username },
+                {
+                    "UserInfo": {
+                        "username": foundUser.password.username,
+                        "roles": roles
+                    }
+                },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15min'}
+                { expiresIn: '15min' }
             );
             res.json({ accessToken })
         }
