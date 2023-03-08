@@ -3,7 +3,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 
 const usersDB = {
-    users: require('../models/users.json'),
+    users: require('../model/users.json'),
     setUsers: function (data) { this.users = data}
 }
 
@@ -20,7 +20,7 @@ const handleNewUser = async (req, res) => {
         const newUser = { "username": user, "password": hashedPwd };
         usersDB.setUsers([...usersDB.users, newUser]);
         await fsPromises.writeFile(
-            path.join(__dirname,"..",'models','users.json'),
+            path.join(__dirname,"..",'model','users.json'),
             JSON.stringify(usersDB.users)
         );
         console.log(usersDB.users);

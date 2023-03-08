@@ -1,5 +1,5 @@
 const data = {
-    pokemons: require('../models/pokemons.json'),
+    pokemons: require('../model/pokemons.json'),
     setPokemons: function (data) {this.pokemons = data} 
 };
 
