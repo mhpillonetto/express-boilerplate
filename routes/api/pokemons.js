@@ -2,10 +2,9 @@ const express= require('express');
 const router = express.Router();
 const path = require('path');
 const pokemonsController = require('../../controllers/pokemonsController');
-const verifyJWT = require('../../middlewares/verifyJWT');
 
 router.route('/')
-    .get(verifyJWT, pokemonsController.getAllPokemons)
+    .get(pokemonsController.getAllPokemons)
     .post(pokemonsController.createPokemons)
     .put(pokemonsController.updatePokemon);
 
